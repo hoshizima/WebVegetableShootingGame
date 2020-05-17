@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WorkList</title>
+    <style>
+      canvas {
+        border: 1px solid gray;
+      }
+      p {
+        border: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="board"></canvas>
+    <p id="status"></p>
+
+    <script>
+      function CharacterShot(){
+        this.position = new Point();
+        this.size = 0;
+        this.speed=0;
+        this.alive = false;
+      }
+      CharacterShot.prototype.set=function(p,size,speed){
+        this.position.x
+      }
+      function Point() {
+        this.x = 0;
+        this.y = 0;
+      }
+      var board, status;
+      var run = true;
+      var fps = 1000 / 30;
+      var mouse = new Point();
+      var ctx;
+      var vegetable = new Image();
+      var fire = false;
+      const SHOT_COLOR = "rgba(245,241,98,0.75)";
+      const SHOT_MAX = 10;
+
+      window.onload = function () {
+        // canvas初期化
+        board = document.getElementById("board");
+        board.width = 256;
+        board.height = 256;
+        ctx = board.getContext("2d");
+        vegetable.src = "./vegetable1.png";
+
+        board.addEventListener("mousemove", mouseMove, true);
+        window.addEventListener("keydown", keyDown, true);
+        board.addEventListener("mousedown", mouseDown, true);
+        status = document.getElementById("status");
+
+        (function () {
+          ctx.clearRect(0, 0, board.width, board.height);
+          ctx.beginPath();
+          ctx.drawImage(vegetable, mouse.x - 16, mouse.y - 16);
+          if (run) {
+            setTimeout(arguments.callee, fps);
+          }
+        })();
+      };
+
+      function mouseMove(event) {
+        mouse.x = event.clientX - board.offsetLeft;
+        mouse.y = event.clientY - board.offsetTop;
+      }
+
+      function keyDown(event) {
+        var ck = event.keyCode;
+        if (ck === 27) {
+          run = false;
+        }
+      }
+
+      function mouseDown(event) {
+        fire = true;
+      }
+    </script>
+  </body>
+</html>
